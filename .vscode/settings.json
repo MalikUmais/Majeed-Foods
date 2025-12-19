@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
+}
+// java -cp ".;lib/*" ui.LoginUI     to run 
+// javac -cp ".;lib/*" dao/*.java models/*.java ui/*.java    to compile
