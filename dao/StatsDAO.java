@@ -24,39 +24,44 @@ public class StatsDAO {
         }
     }
 
-    public Stats getStats() {
-        String sql = "SELECT TOP 1 * FROM stats ORDER BY report_id DESC";
+   public Stats getStats() {
+    String sql = "SELECT TOP 1 * FROM stats ORDER BY report_id DESC";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    try (PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
-                Stats s = new Stats();
-                s.setReportId(rs.getInt("report_id"));
-                s.setStocksPurchased(rs.getInt("stocks_purchased"));
-                return s;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (rs.next()) {
+            Stats s = new Stats();
+            s.setReportId(rs.getInt("report_id"));
+            s.setStocksPurchased(rs.getInt("stocks_purchased"));
+            return s;
+        } else {
+            createInitialStats();
+            return getStats();
         }
 
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return null;
+}
+
 
    
     
-    public boolean incrementStockPurchased() {
+    public boolean incrementStockPurchased(int qty) {
         Stats current = getStats();
         if (current == null) {
             createInitialStats();
             current = getStats();
         }
 
-        String sql = "UPDATE stats SET stocks_purchased = stocks_purchased + 1 WHERE report_id = ?";
+        String sql = "UPDATE stats SET stocks_purchased = stocks_purchased + ? WHERE report_id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, current.getReportId());
+            ps.setInt(1, qty);
+            ps.setInt(2, current.getReportId());
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -65,7 +70,8 @@ public class StatsDAO {
         }
     }
 
-    
+   
+
     public boolean resetStats() {
         String sql = "UPDATE stats SET stocks_purchased = 0";
 

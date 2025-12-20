@@ -2,7 +2,8 @@ package ui;
 
 import dao.StockDAO;
 import models.Stock;
-
+import dao.BalanceDAO;
+import dao.StatsDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -18,11 +19,14 @@ public class StockManagementUI extends JFrame {
     private JTextField txtPrice;
 
     private StockDAO stockDAO;
-
+    private StatsDAO statsDAO;
+    private BalanceDAO balanceDAO;
     public StockManagementUI() {
-
+        
         stockDAO = new StockDAO();
-
+        statsDAO = new StatsDAO();
+        balanceDAO = new BalanceDAO();
+        
         setTitle("Stock Management - Majeed Foods");
         setSize(800, 550);
         setLocationRelativeTo(null);
@@ -128,6 +132,8 @@ public class StockManagementUI extends JFrame {
             s.setItemPrice(price);
 
             if (stockDAO.addStock(s)) {
+                statsDAO.incrementStockPurchased(qty);
+                balanceDAO.deductBalanceOnPurchase(price);
                 JOptionPane.showMessageDialog(this, "Stock added!");
                 loadStocks();
             } else {

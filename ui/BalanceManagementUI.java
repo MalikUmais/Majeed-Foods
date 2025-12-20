@@ -37,12 +37,11 @@ public class BalanceManagementUI extends JFrame {
         lblCurrentBalance = new JLabel();
         lblCurrentBalance.setFont(new Font("Arial", Font.BOLD, 20));
         balancePanel.add(lblCurrentBalance);
-
         add(balancePanel, BorderLayout.CENTER);
 
-        // ---------- FORM ----------
-        JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        // ---------- INPUT FORM ----------
+        JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
         formPanel.add(new JLabel("Sale Amount:"));
         txtSaleAmount = new JTextField();
@@ -52,29 +51,29 @@ public class BalanceManagementUI extends JFrame {
         txtPurchaseAmount = new JTextField();
         formPanel.add(txtPurchaseAmount);
 
-        // Buttons
+        add(formPanel, BorderLayout.NORTH);
+
+        // ---------- BUTTON PANEL ----------
         JButton btnAddSale = new JButton("Add Sale");
         JButton btnPurchase = new JButton("Deduct Purchase");
         JButton btnLowAlert = new JButton("Check Low Balance");
+        JButton btnInit = new JButton("Initialize Balance");
 
-        formPanel.add(btnAddSale);
-        formPanel.add(btnPurchase);
-JPanel southPanel = new JPanel(new BorderLayout());
-southPanel.add(formPanel, BorderLayout.NORTH);
-// southPanel.add(btnPanel, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new GridLayout(2,2,10,10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
 
-add(southPanel, BorderLayout.SOUTH);
-        // add(formPanel, BorderLayout.SOUTH);
+        buttonPanel.add(btnAddSale);
+        buttonPanel.add(btnPurchase);
+        buttonPanel.add(btnLowAlert);
+        buttonPanel.add(btnInit);
 
-        // Extra Button
-        JPanel extraPanel = new JPanel();
-        extraPanel.add(btnLowAlert);
-        add(extraPanel, BorderLayout.AFTER_LAST_LINE);
+        add(buttonPanel, BorderLayout.SOUTH);
 
         // ---------- BUTTON ACTIONS ----------
         btnAddSale.addActionListener(e -> addSale());
         btnPurchase.addActionListener(e -> deductPurchase());
         btnLowAlert.addActionListener(e -> checkLowBalance());
+        btnInit.addActionListener(e -> initBalance());
 
         // Load initial balance
         loadBalance();
@@ -103,7 +102,6 @@ add(southPanel, BorderLayout.SOUTH);
             }
 
             if (balanceDAO.addBalanceOnSale(amount)) {
-                // Orders increment already done in OrderDAO, here is just manual sale
                 JOptionPane.showMessageDialog(this, "Sale added! Balance updated.");
                 loadBalance();
             } else {
@@ -126,10 +124,6 @@ add(southPanel, BorderLayout.SOUTH);
             }
 
             if (balanceDAO.deductBalanceOnPurchase(amount)) {
-
-                // Track stock purchases
-                statsDAO.incrementStockPurchased();
-
                 JOptionPane.showMessageDialog(this, "Purchase deducted! Balance updated.");
                 loadBalance();
             } else {
@@ -158,6 +152,23 @@ add(southPanel, BorderLayout.SOUTH);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Invalid threshold value!");
+        }
+    }
+
+    // ---------- INITIALIZE BALANCE ----------
+    private void initBalance() {
+        String amountStr = JOptionPane.showInputDialog(this, "Enter starting balance:");
+
+        try {
+            double amount = Double.parseDouble(amountStr);
+            if (balanceDAO.addInitialBalance(amount)) {
+                JOptionPane.showMessageDialog(this, "Balance initialized!");
+                loadBalance();
+            } else {
+                JOptionPane.showMessageDialog(this, "Balance initialization failed!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid amount!");
         }
     }
 }
