@@ -36,7 +36,7 @@ public class StockManagementUI extends JFrame {
 
         // ---------- TABLE ----------
         model = new DefaultTableModel(new String[]{
-                "Item ID", "Item Name", "Quantity", "Price"
+                "Item ID", "Item Name", "Quantity(kg)", "Price(Rs)"
         }, 0);
 
         table = new JTable(model);
@@ -53,11 +53,11 @@ public class StockManagementUI extends JFrame {
         txtItemName = new JTextField();
         formPanel.add(txtItemName);
 
-        formPanel.add(new JLabel("Quantity:"));
+        formPanel.add(new JLabel("Quantity(kg):"));
         txtQuantity = new JTextField();
         formPanel.add(txtQuantity);
 
-        formPanel.add(new JLabel("Price:"));
+        formPanel.add(new JLabel("Price(Rs):"));
         txtPrice = new JTextField();
         formPanel.add(txtPrice);
 

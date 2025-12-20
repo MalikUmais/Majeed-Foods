@@ -75,7 +75,6 @@ public class ReportsUI extends JFrame {
         }
 
         txtReportArea.append("----- Basic System Stats -----\n");
-        txtReportArea.append("Orders Completed: " + stats.getOrderCompleted() + "\n");
         txtReportArea.append("Stocks Purchased: " + stats.getStocksPurchased() + "\n");
         txtReportArea.append("Current Balance:  PKR " + balance.getAmount() + "\n");
         txtReportArea.append("--------------------------------\n\n");
