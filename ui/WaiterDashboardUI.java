@@ -51,7 +51,7 @@ public class WaiterDashboardUI extends JFrame {
         add(topPanel, BorderLayout.NORTH);
 
         // Menu table
-        menuModel = new DefaultTableModel(new String[]{"Item Name", "Price"}, 0);
+        menuModel = new DefaultTableModel(new String[] { "Item Name", "Price" }, 0);
         menuTable = new JTable(menuModel);
 
         JScrollPane tableScroll = new JScrollPane(menuTable);
@@ -77,15 +77,14 @@ public class WaiterDashboardUI extends JFrame {
 
         List<MenuItem> items = menuDAO.getAllMenuItems();
         for (MenuItem m : items) {
-            menuModel.addRow(new Object[]{m.getItemName(), m.getItemPrice()});
+            menuModel.addRow(new Object[] { m.getItemName(), m.getItemPrice() });
         }
     }
 
     // Load assigned shift info
     private void loadShift() {
 
-Shift s = shiftDAO.getShiftById(waiterId);
-
+        Shift s = shiftDAO.getShiftById(waiterId);
 
         if (s != null) {
             lblShiftTiming.setText("Shift Time: " + s.getShiftTiming());

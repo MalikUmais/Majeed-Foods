@@ -19,13 +19,13 @@ public class DashboardUI extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // ---------- TOP PANEL: Welcome Message ----------
+        // top pannel for welcome message
         JPanel topPanel = new JPanel();
         JLabel lblWelcome = new JLabel("Welcome, " + manager.getName());
         lblWelcome.setFont(new Font("Arial", Font.BOLD, 22));
         topPanel.add(lblWelcome);
 
-        // ---------- CENTER PANEL: Buttons ----------
+        // center panel for btns
         JPanel centerPanel = new JPanel(new GridLayout(2, 3, 20, 20));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
@@ -50,13 +50,13 @@ public class DashboardUI extends JFrame {
         centerPanel.add(btnReports);
         centerPanel.add(btnLogout);
 
-        // ---------- ADD PANELS ----------
+        // adding panels to frame
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
 
         setVisible(true);
 
-        // ---------- BUTTON EVENTS ----------
+        // btns events
         
         btnMenu.addActionListener(e -> {
             new MenuManagementUI();

@@ -21,25 +21,26 @@ public class StockManagementUI extends JFrame {
     private StockDAO stockDAO;
     private StatsDAO statsDAO;
     private BalanceDAO balanceDAO;
+
     public StockManagementUI() {
-        
+
         stockDAO = new StockDAO();
         statsDAO = new StatsDAO();
         balanceDAO = new BalanceDAO();
-        
+
         setTitle("Stock Management - Majeed Foods");
         setSize(800, 550);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // ---------- TITLE ----------
+        // title
         JLabel lblTitle = new JLabel("Stock Management", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         add(lblTitle, BorderLayout.NORTH);
 
-        // ---------- TABLE ----------
-        model = new DefaultTableModel(new String[]{
+        // table
+        model = new DefaultTableModel(new String[] {
                 "Item ID", "Item Name", "Quantity(kg)", "Price(Rs)"
         }, 0);
 
@@ -49,7 +50,7 @@ public class StockManagementUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ---------- FORM PANEL ----------
+        // form panel
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -65,7 +66,7 @@ public class StockManagementUI extends JFrame {
         txtPrice = new JTextField();
         formPanel.add(txtPrice);
 
-        // ---------- BUTTON PANEL ----------
+        // btn panel
         JPanel btnPanel = new JPanel();
 
         JButton btnAdd = new JButton("Add Stock");
@@ -88,7 +89,7 @@ public class StockManagementUI extends JFrame {
 
         add(southPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON ACTIONS ----------
+        // btn actions
         btnAdd.addActionListener(e -> addStock());
         btnUpdate.addActionListener(e -> updateStock());
         btnDelete.addActionListener(e -> deleteStock());
@@ -99,13 +100,13 @@ public class StockManagementUI extends JFrame {
         setVisible(true);
     }
 
-    // ---------- LOAD DATA ----------
+    // load data
     private void loadStocks() {
         model.setRowCount(0);
         List<Stock> stocks = stockDAO.getAllStocks();
 
         for (Stock s : stocks) {
-            model.addRow(new Object[]{
+            model.addRow(new Object[] {
                     s.getItemId(),
                     s.getItemName(),
                     s.getItemQuantity(),
@@ -114,7 +115,7 @@ public class StockManagementUI extends JFrame {
         }
     }
 
-    // ---------- ADD STOCK ----------
+    // add stocl
     private void addStock() {
         try {
             String name = txtItemName.getText();
@@ -145,7 +146,7 @@ public class StockManagementUI extends JFrame {
         }
     }
 
-    // ---------- UPDATE STOCK ----------
+    // update stock
     private void updateStock() {
         int row = table.getSelectedRow();
         if (row == -1) {
@@ -177,7 +178,7 @@ public class StockManagementUI extends JFrame {
         }
     }
 
-    // ---------- DELETE STOCK ----------
+    // delete stock
     private void deleteStock() {
         int row = table.getSelectedRow();
         if (row == -1) {
@@ -198,10 +199,11 @@ public class StockManagementUI extends JFrame {
         }
     }
 
-    // ---------- SHOW LOW STOCK ----------
+    // show low stock
     private void showLowStock() {
         String thresholdStr = JOptionPane.showInputDialog(this, "Enter low-stock threshold:");
-        if (thresholdStr == null) return;
+        if (thresholdStr == null)
+            return;
 
         try {
             int threshold = Integer.parseInt(thresholdStr);
@@ -224,14 +226,14 @@ public class StockManagementUI extends JFrame {
         }
     }
 
-    // ---------- MOST USED ITEM DISPLAY ----------
+    // most used item
     private void showMostUsedItem() {
         JOptionPane.showMessageDialog(this,
                 "Most Used Item:\n" + stockDAO.getMostUsedItemName(),
                 "Most Used Item", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // ---------- MARK MOST USED ----------
+    // mark most used
     private void markMostUsed() {
         int row = table.getSelectedRow();
         if (row == -1) {

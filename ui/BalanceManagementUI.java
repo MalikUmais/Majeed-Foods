@@ -27,19 +27,19 @@ public class BalanceManagementUI extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // ---------- TITLE ----------
+        // title pannel
         JLabel lblTitle = new JLabel("Balance Management", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         add(lblTitle, BorderLayout.NORTH);
 
-        // ---------- BALANCE DISPLAY ----------
+        // display balance pannel
         JPanel balancePanel = new JPanel();
         lblCurrentBalance = new JLabel();
         lblCurrentBalance.setFont(new Font("Arial", Font.BOLD, 20));
         balancePanel.add(lblCurrentBalance);
         add(balancePanel, BorderLayout.CENTER);
 
-        // ---------- INPUT FORM ----------
+        // input pannel
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
@@ -53,13 +53,13 @@ public class BalanceManagementUI extends JFrame {
 
         add(formPanel, BorderLayout.NORTH);
 
-        // ---------- BUTTON PANEL ----------
+        // btn pannel
         JButton btnAddSale = new JButton("Add Sale");
         JButton btnPurchase = new JButton("Deduct Purchase");
         JButton btnLowAlert = new JButton("Check Low Balance");
         JButton btnInit = new JButton("Initialize Balance");
 
-        JPanel buttonPanel = new JPanel(new GridLayout(2,2,10,10));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
 
         buttonPanel.add(btnAddSale);
@@ -69,7 +69,7 @@ public class BalanceManagementUI extends JFrame {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON ACTIONS ----------
+        // btn event handlers
         btnAddSale.addActionListener(e -> addSale());
         btnPurchase.addActionListener(e -> deductPurchase());
         btnLowAlert.addActionListener(e -> checkLowBalance());
@@ -81,7 +81,7 @@ public class BalanceManagementUI extends JFrame {
         setVisible(true);
     }
 
-    // ---------- LOAD CURRENT BALANCE ----------
+    // load balance
     private void loadBalance() {
         Balance b = balanceDAO.getBalance();
         if (b != null) {
@@ -91,7 +91,7 @@ public class BalanceManagementUI extends JFrame {
         }
     }
 
-    // ---------- ADD SALE ----------
+    // add sale
     private void addSale() {
         try {
             double amount = Double.parseDouble(txtSaleAmount.getText());
@@ -113,7 +113,7 @@ public class BalanceManagementUI extends JFrame {
         }
     }
 
-    // ---------- DEDUCT PURCHASE ----------
+    // deduct purchase
     private void deductPurchase() {
         try {
             double amount = Double.parseDouble(txtPurchaseAmount.getText());
@@ -135,11 +135,12 @@ public class BalanceManagementUI extends JFrame {
         }
     }
 
-    // ---------- CHECK LOW BALANCE ----------
+    // low balance checking
     private void checkLowBalance() {
         String thresholdStr = JOptionPane.showInputDialog(this, "Enter threshold amount:");
 
-        if (thresholdStr == null) return;
+        if (thresholdStr == null)
+            return;
 
         try {
             double threshold = Double.parseDouble(thresholdStr);
@@ -155,7 +156,7 @@ public class BalanceManagementUI extends JFrame {
         }
     }
 
-    // ---------- INITIALIZE BALANCE ----------
+    // balance initialization
     private void initBalance() {
         String amountStr = JOptionPane.showInputDialog(this, "Enter starting balance:");
 

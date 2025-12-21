@@ -21,13 +21,13 @@ public class LoginUI extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // ---------- Title Panel ----------
+        // title panel
         JPanel titlePanel = new JPanel();
-        JLabel lblTitle = new JLabel("Manager Login");
+        JLabel lblTitle = new JLabel("Login");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         titlePanel.add(lblTitle);
 
-        // ---------- Form Panel ----------
+        // form panel
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
         formPanel.add(new JLabel("Username:"));
@@ -38,7 +38,7 @@ public class LoginUI extends JFrame {
         txtPassword = new JPasswordField();
         formPanel.add(txtPassword);
 
-        // ---------- Button Panel ----------
+        // btn panel
         JPanel buttonPanel = new JPanel();
         btnLogin = new JButton("Login");
         JButton btnExit = new JButton("Exit");
@@ -51,46 +51,44 @@ public class LoginUI extends JFrame {
         add(formPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // ---------- Button Listeners ----------
-
-        // LOGIN BUTTON
+        // login btn
         btnLogin.addActionListener(e -> handleLogin());
 
-        // EXIT BUTTON
+        // exit btn
         btnExit.addActionListener(e -> System.exit(0));
 
         setVisible(true);
     }
 
-    // ---------- LOGIN LOGIC ----------
+    // login logic
     private void handleLogin() {
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
 
         ManagerDAO managerDAO = new ManagerDAO();
-        WaiterDAO waiterDAO=new WaiterDAO();
+        WaiterDAO waiterDAO = new WaiterDAO();
         Manager manager = managerDAO.loginManager(username, password);
 
         if (manager != null) {
-    new DashboardUI(manager);
-    dispose();
-    return;
-}
+            new DashboardUI(manager);
+            dispose();
+            return;
+        }
 
-// 2️⃣ Waiter check
-Waiter waiter = waiterDAO.loginWaiter(username, password);
+        // Waiter check
+        Waiter waiter = waiterDAO.loginWaiter(username, password);
 
-if (waiter != null) {
-    new WaiterDashboardUI(waiter.getWaiterId(), waiter.getName());
-
-    dispose();
-    return;
-} else {
-            JOptionPane.showMessageDialog(this, "Invalid Username or Password!", "Login Failed", JOptionPane.ERROR_MESSAGE);
+        if (waiter != null) {
+            new WaiterDashboardUI(waiter.getWaiterId(), waiter.getName());
+            dispose();
+            return;
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Username or Password!", "Login Failed",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // ---------- MAIN METHOD FOR TESTING ----------
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(LoginUI::new);
     }

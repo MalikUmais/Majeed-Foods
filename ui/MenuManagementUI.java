@@ -27,20 +27,20 @@ public class MenuManagementUI extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // ---------- TITLE ----------
+        // title
         JLabel lblTitle = new JLabel("Menu Management", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 22));
         add(lblTitle, BorderLayout.NORTH);
 
-        // ---------- TABLE ----------
-        model = new DefaultTableModel(new String[]{"ID", "Name", "Price"}, 0);
+        // table
+        model = new DefaultTableModel(new String[] { "ID", "Name", "Price" }, 0);
         table = new JTable(model);
         loadMenuItems();
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ---------- FORM PANEL ----------
+        // form panel
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -54,7 +54,7 @@ public class MenuManagementUI extends JFrame {
 
         add(formPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON PANEL ----------
+        // btn panel
         JPanel btnPanel = new JPanel();
 
         JButton btnAdd = new JButton("Add Item");
@@ -64,36 +64,30 @@ public class MenuManagementUI extends JFrame {
         btnPanel.add(btnAdd);
         btnPanel.add(btnUpdate);
         btnPanel.add(btnDelete);
-JPanel southPanel = new JPanel(new BorderLayout());
-southPanel.add(formPanel, BorderLayout.NORTH);
-southPanel.add(btnPanel, BorderLayout.SOUTH);
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(formPanel, BorderLayout.NORTH);
+        southPanel.add(btnPanel, BorderLayout.SOUTH);
 
-// ADD TO FRAME
-add(southPanel, BorderLayout.SOUTH);
-        // add(btnPanel, BorderLayout.SOUTH);
-        // add(btnPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON ACTIONS ----------
+        add(southPanel, BorderLayout.SOUTH);
 
-        // Add Menu Item
+        // btn actions
         btnAdd.addActionListener(e -> addMenuItem());
 
-        // Update Menu Item
         btnUpdate.addActionListener(e -> updateMenuItem());
 
-        // Delete Menu Item
         btnDelete.addActionListener(e -> deleteMenuItem());
 
         setVisible(true);
     }
 
-    // ---------- LOAD DATA INTO TABLE ----------
+    // to load data into table
     private void loadMenuItems() {
-        model.setRowCount(0);  // clear table
+        model.setRowCount(0); 
 
         List<MenuItem> items = menuDAO.getAllMenuItems();
         for (MenuItem item : items) {
-            model.addRow(new Object[]{
+            model.addRow(new Object[] {
                     item.getItemId(),
                     item.getItemName(),
                     item.getItemPrice()
@@ -101,7 +95,7 @@ add(southPanel, BorderLayout.SOUTH);
         }
     }
 
-    // ---------- ADD ITEM ----------
+    // add item
     private void addMenuItem() {
         String name = txtName.getText();
         String priceText = txtPrice.getText();
@@ -132,7 +126,7 @@ add(southPanel, BorderLayout.SOUTH);
         }
     }
 
-    // ---------- UPDATE ITEM ----------
+    // update item
     private void updateMenuItem() {
         int row = table.getSelectedRow();
 
@@ -170,7 +164,7 @@ add(southPanel, BorderLayout.SOUTH);
         }
     }
 
-    // ---------- DELETE ITEM ----------
+    // delete item
     private void deleteMenuItem() {
         int row = table.getSelectedRow();
 

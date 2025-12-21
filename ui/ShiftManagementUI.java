@@ -33,13 +33,13 @@ public class ShiftManagementUI extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // ---------- TITLE ----------
+        // title
         JLabel lblTitle = new JLabel("Shift Management", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         add(lblTitle, BorderLayout.NORTH);
 
-        // ---------- TABLE ----------
-        model = new DefaultTableModel(new String[]{
+        // table
+        model = new DefaultTableModel(new String[] {
                 "Shift ID", "Shift Name", "Timing", "Days", "Waiters"
         }, 0);
 
@@ -49,7 +49,7 @@ public class ShiftManagementUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ---------- FORM PANEL ----------
+        // form panel
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -65,7 +65,7 @@ public class ShiftManagementUI extends JFrame {
         txtShiftDays = new JTextField();
         formPanel.add(txtShiftDays);
 
-        // ---------- BUTTON PANEL ----------
+        // btn panel
         JPanel btnPanel = new JPanel();
 
         JButton btnAddShift = new JButton("Add Shift");
@@ -86,7 +86,7 @@ public class ShiftManagementUI extends JFrame {
 
         add(southPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON ACTIONS ----------
+        // btn actions
         btnAddShift.addActionListener(e -> addShift());
         btnAssignWaiter.addActionListener(e -> assignWaiters());
         btnRemoveWaiter.addActionListener(e -> removeWaiter());
@@ -96,8 +96,7 @@ public class ShiftManagementUI extends JFrame {
         setVisible(true);
     }
 
-
-    // ---------- LOAD SHIFTS ----------
+    // load shifts into table
     private void loadShifts() {
         model.setRowCount(0);
         List<Shift> shifts = shiftDAO.getAllShifts();
@@ -109,7 +108,7 @@ public class ShiftManagementUI extends JFrame {
                     .reduce((a, b) -> a + ", " + b)
                     .orElse("None");
 
-            model.addRow(new Object[]{
+            model.addRow(new Object[] {
                     s.getShiftId(),
                     s.getShiftName(),
                     s.getShiftTiming(),
@@ -119,8 +118,7 @@ public class ShiftManagementUI extends JFrame {
         }
     }
 
-
-    // ---------- ADD SHIFT ----------
+    // add shift
     private void addShift() {
         String name = txtShiftName.getText();
         String timing = txtShiftTiming.getText();
@@ -144,8 +142,7 @@ public class ShiftManagementUI extends JFrame {
         }
     }
 
-
-    // ---------- ASSIGN MULTIPLE WAITERS ----------
+    // assign waiters to shift
     private void assignWaiters() {
         int row = table.getSelectedRow();
 
@@ -177,10 +174,10 @@ public class ShiftManagementUI extends JFrame {
                 this,
                 new JScrollPane(waiterList),
                 "Select Waiter(s)",
-                JOptionPane.OK_CANCEL_OPTION
-        );
+                JOptionPane.OK_CANCEL_OPTION);
 
-        if (result != JOptionPane.OK_OPTION) return;
+        if (result != JOptionPane.OK_OPTION)
+            return;
 
         List<String> selectedValues = waiterList.getSelectedValuesList();
 
@@ -193,8 +190,7 @@ public class ShiftManagementUI extends JFrame {
         loadShifts();
     }
 
-
-    // ---------- REMOVE WAITER ----------
+    // remove waiter from shift
     private void removeWaiter() {
         int row = table.getSelectedRow();
 
@@ -225,10 +221,10 @@ public class ShiftManagementUI extends JFrame {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 assignedNames,
-                assignedNames[0]
-        );
+                assignedNames[0]);
 
-        if (selected == null) return;
+        if (selected == null)
+            return;
 
         int waiterId = Integer.parseInt(selected.split(" - ")[0]);
 
@@ -238,8 +234,7 @@ public class ShiftManagementUI extends JFrame {
         }
     }
 
-
-    // ---------- DELETE SHIFT ----------
+    // delete shift
     private void deleteShift() {
         int row = table.getSelectedRow();
 
@@ -254,8 +249,7 @@ public class ShiftManagementUI extends JFrame {
                 this,
                 "Delete this shift?",
                 "Confirm",
-                JOptionPane.YES_NO_OPTION
-        );
+                JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             if (shiftDAO.deleteShift(shiftId)) {

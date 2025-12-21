@@ -26,19 +26,19 @@ public class ReportsUI extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // ---------- TITLE ----------
+        // title
         JLabel lblTitle = new JLabel("Financial & Activity Reports", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         add(lblTitle, BorderLayout.NORTH);
 
-        // ---------- REPORT AREA ----------
+        // report area
         txtReportArea = new JTextArea();
         txtReportArea.setEditable(false);
         txtReportArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         JScrollPane scrollPane = new JScrollPane(txtReportArea);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ---------- BUTTON PANEL ----------
+        // btn panel
         JPanel btnPanel = new JPanel();
 
         JButton btnGenerate = new JButton("Generate Report");
@@ -51,18 +51,17 @@ public class ReportsUI extends JFrame {
 
         add(btnPanel, BorderLayout.SOUTH);
 
-        // ---------- BUTTON ACTIONS ----------
+        //btn actions
         btnGenerate.addActionListener(e -> generateReport());
         btnRefresh.addActionListener(e -> loadStats());
         btnClear.addActionListener(e -> txtReportArea.setText(""));
 
-        // Load stats by default
         loadStats();
 
         setVisible(true);
     }
 
-    // ---------- LOAD BASIC STATS ----------
+    // load basic stats
     private void loadStats() {
         txtReportArea.setText("");
 
@@ -80,7 +79,7 @@ public class ReportsUI extends JFrame {
         txtReportArea.append("--------------------------------\n\n");
     }
 
-    // ---------- GENERATE FULL REPORT ----------
+    //generate detailed report
     private void generateReport() {
         String report = statsDAO.generateProfitLossReport();
         txtReportArea.append(report + "\n\n");
