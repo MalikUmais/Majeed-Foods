@@ -108,7 +108,7 @@ public class MenuDAO {
         }
     }
 
-    // SRS EXTRA: check duplicate
+    // check duplicate
     public boolean itemExists(String name) {
         String sql = "SELECT item_id FROM menu WHERE item_name = ?";
 

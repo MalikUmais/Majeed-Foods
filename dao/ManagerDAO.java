@@ -79,7 +79,7 @@ public class ManagerDAO {
         }
     }
 
-    // READ - Get single manager
+    // Get single manager
     public Manager getManager(int id) {
         String sql = "SELECT * FROM manager WHERE manager_id = ?";
 
@@ -103,7 +103,7 @@ public class ManagerDAO {
         return null;
     }
 
-    // READ - Get all managers
+    // Get all managers
     public List<Manager> getAllManagers() {
         List<Manager> list = new ArrayList<>();
         String sql = "SELECT * FROM manager ORDER BY manager_id ASC";
@@ -127,7 +127,7 @@ public class ManagerDAO {
         return list;
     }
 
-    // UPDATE - Update manager details
+    // Update manager details
     public boolean updateManager(Manager m) {
         String sql = "UPDATE manager SET name = ?, password = ?, contact_number = ? WHERE manager_id = ?";
 
@@ -145,7 +145,7 @@ public class ManagerDAO {
         }
     }
 
-    // EXTRA - Update password only
+    // Update password only
     public boolean updatePassword(int managerId, String newPassword) {
         String sql = "UPDATE manager SET password = ? WHERE manager_id = ?";
 

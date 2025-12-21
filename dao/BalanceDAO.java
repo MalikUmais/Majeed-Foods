@@ -12,7 +12,7 @@ public class BalanceDAO {
         conn = DBConnection.getConnection();
     }
 
-    // Create - Only needed once to initialize balance row
+    // Only needed once to initialize balance row
     public boolean addInitialBalance(double amount) {
         String sql = "INSERT INTO balance (amount) VALUES (?)";
 
@@ -26,12 +26,12 @@ public class BalanceDAO {
         }
     }
 
-    // READ - Get current balance
+    // Get current balance
     public Balance getBalance() {
         String sql = "SELECT TOP 1 * FROM balance ORDER BY balance_id DESC";
 
         try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                ResultSet rs = ps.executeQuery()) {
 
             if (rs.next()) {
                 Balance b = new Balance();
@@ -47,10 +47,11 @@ public class BalanceDAO {
         return null;
     }
 
-    // UPDATE - Set new balance manually
+    // Set new balance manually
     public boolean updateBalance(double newAmount) {
         Balance current = getBalance();
-        if (current == null) return false;
+        if (current == null)
+            return false;
 
         String sql = "UPDATE balance SET amount = ? WHERE balance_id = ?";
 
@@ -65,20 +66,22 @@ public class BalanceDAO {
         }
     }
 
-    // EXTRA - Add to balance (on sale)
+    // Add to balance (on sale)
     public boolean addBalanceOnSale(double saleAmount) {
         Balance b = getBalance();
-        if (b == null) return false;
+        if (b == null)
+            return false;
 
         double updated = b.getAmount() + saleAmount;
 
         return updateBalance(updated);
     }
 
-    // EXTRA - Deduct from balance (on stock purchase)
+    // Deduct from balance (on stock purchase)
     public boolean deductBalanceOnPurchase(double purchaseAmount) {
         Balance b = getBalance();
-        if (b == null) return false;
+        if (b == null)
+            return false;
 
         double updated = b.getAmount() - purchaseAmount;
 
@@ -93,24 +96,10 @@ public class BalanceDAO {
     // EXTRA - Low balance alert
     public boolean isLowBalance(double threshold) {
         Balance b = getBalance();
-        if (b == null) return true;
+        if (b == null)
+            return true;
 
         return b.getAmount() <= threshold;
     }
 
-    // EXTRA - Generate report (simple placeholder)
-    public String getBalanceReport(String period) {
-        // You will later replace this with StatsDAO calculations
-        switch (period.toLowerCase()) {
-            case "daily":
-                return "Daily Report: Sales + Purchases Summary Unavailable (StatsDAO needed)";
-            case "weekly":
-                return "Weekly Report: Coming Soon";
-            case "monthly":
-                return "Monthly Report: Coming Soon";
-            default:
-                return "Invalid period. Use daily | weekly | monthly.";
-        }
-    }
 }
-

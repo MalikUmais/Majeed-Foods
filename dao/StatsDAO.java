@@ -12,7 +12,6 @@ public class StatsDAO {
         conn = DBConnection.getConnection();
     }
 
-   
     public boolean createInitialStats() {
         String sql = "INSERT INTO stats (stocks_purchased) VALUES (0)";
 
@@ -24,32 +23,29 @@ public class StatsDAO {
         }
     }
 
-   public Stats getStats() {
-    String sql = "SELECT TOP 1 * FROM stats ORDER BY report_id DESC";
+    public Stats getStats() {
+        String sql = "SELECT TOP 1 * FROM stats ORDER BY report_id DESC";
 
-    try (PreparedStatement ps = conn.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
-        if (rs.next()) {
-            Stats s = new Stats();
-            s.setReportId(rs.getInt("report_id"));
-            s.setStocksPurchased(rs.getInt("stocks_purchased"));
-            return s;
-        } else {
-            createInitialStats();
-            return getStats();
+            if (rs.next()) {
+                Stats s = new Stats();
+                s.setReportId(rs.getInt("report_id"));
+                s.setStocksPurchased(rs.getInt("stocks_purchased"));
+                return s;
+            } else {
+                createInitialStats();
+                return getStats();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
 
-    return null;
-}
-
-
-   
-    
     public boolean incrementStockPurchased(int qty) {
         Stats current = getStats();
         if (current == null) {
@@ -70,8 +66,6 @@ public class StatsDAO {
         }
     }
 
-   
-
     public boolean resetStats() {
         String sql = "UPDATE stats SET stocks_purchased = 0";
 
@@ -84,7 +78,6 @@ public class StatsDAO {
         }
     }
 
-    
     public String generateProfitLossReport() {
 
         Stats stats = getStats();
@@ -93,13 +86,11 @@ public class StatsDAO {
         // Current balance
         double balance = balanceDAO.getBalance().getAmount();
 
-
-
         double purchaseValueEstimate = stats.getStocksPurchased() * 300; // assume avg purchase = 300
 
         double profit = balance - purchaseValueEstimate;
 
-        return  "----- Profit & Loss Report -----\n"
+        return "----- Profit & Loss Report -----\n"
                 + "Stocks Purchased: " + stats.getStocksPurchased() + "\n"
                 + "Estimated Purchase Total: " + purchaseValueEstimate + "\n"
                 + "--------------------------------\n"
@@ -108,4 +99,3 @@ public class StatsDAO {
                 + "--------------------------------";
     }
 }
-

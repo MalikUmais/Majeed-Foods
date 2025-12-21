@@ -67,7 +67,7 @@ public class StockDAO {
                 s.setItemName(rs.getString("item_name"));
                 s.setItemQuantity(rs.getInt("item_quantity"));
                 s.setItemPrice(rs.getDouble("item_price"));
-                            s.setMostUsed(rs.getBoolean("most_used"));
+                s.setMostUsed(rs.getBoolean("most_used"));
 
                 list.add(s);
             }
@@ -80,12 +80,12 @@ public class StockDAO {
 
     // UPDATE
     public boolean updateStock(Stock st) {
-            String sql = "UPDATE stock SET item_name = ?, item_quantity = ?, item_price = ? WHERE item_id = ?";
+        String sql = "UPDATE stock SET item_name = ?, item_quantity = ?, item_price = ? WHERE item_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, st.getItemName());
-        ps.setInt(2, st.getItemQuantity());
-        ps.setDouble(3, st.getItemPrice());
-        ps.setInt(4, st.getItemId());
+            ps.setInt(2, st.getItemQuantity());
+            ps.setDouble(3, st.getItemPrice());
+            ps.setInt(4, st.getItemId());
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -108,7 +108,7 @@ public class StockDAO {
         }
     }
 
-    // EXTRA: LOW STOCK ALERT
+    //  LOW STOCK ALERT
     public List<Stock> getLowStock(int threshold) {
         List<Stock> lowList = new ArrayList<>();
         String sql = "SELECT * FROM stock WHERE item_quantity <= ?";
@@ -132,49 +132,50 @@ public class StockDAO {
         return lowList;
     }
 
-    // EXTRA: MOST USED STOCKS (dummy placeholder)
+    // MOST USED STOCKS (dummy placeholder)
     public String getMostUsedItemName() {
-    String sql = "SELECT item_name FROM stock WHERE most_used = 1";
+        String sql = "SELECT item_name FROM stock WHERE most_used = 1";
 
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getString(1);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
 
-    return "No most-used item selected yet.";
-}
+        return "No most-used item selected yet.";
+    }
 
     public boolean setMostUsed(int id) {
 
-    String sql1 = "UPDATE stock SET most_used = 0";
-    String sql2 = "UPDATE stock SET most_used = 1 WHERE item_id = ?";
+        String sql1 = "UPDATE stock SET most_used = 0";
+        String sql2 = "UPDATE stock SET most_used = 1 WHERE item_id = ?";
 
-    try {
-        conn.setAutoCommit(false);
+        try {
+            conn.setAutoCommit(false);
 
-        try (PreparedStatement ps1 = conn.prepareStatement(sql1);
-             PreparedStatement ps2 = conn.prepareStatement(sql2)) {
+            try (PreparedStatement ps1 = conn.prepareStatement(sql1);
+                    PreparedStatement ps2 = conn.prepareStatement(sql2)) {
 
-            ps1.executeUpdate();
+                ps1.executeUpdate();
 
-            ps2.setInt(1, id);
-            ps2.executeUpdate();
+                ps2.setInt(1, id);
+                ps2.executeUpdate();
 
-            conn.commit();
-            return true;
+                conn.commit();
+                return true;
+            }
+
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ignored) {
+            }
+            e.printStackTrace();
+            return false;
         }
-
-    } catch (SQLException e) {
-        try { conn.rollback(); } catch (SQLException ignored) {}
-        e.printStackTrace();
-        return false;
     }
-}
-
 
 }
-

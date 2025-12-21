@@ -29,7 +29,7 @@ public class WaiterDAO {
         }
     }
 
-    // READ - Get waiter by ID
+    // Get waiter by ID
     public Waiter getWaiter(int id) {
         String sql = "SELECT * FROM waiter WHERE waiter_id = ?";
 
@@ -52,7 +52,7 @@ public class WaiterDAO {
         return null;
     }
 
-    // READ - Get all waiters
+    // Get all waiters
     public List<Waiter> getAllWaiters() {
         List<Waiter> list = new ArrayList<>();
         String sql = "SELECT * FROM waiter ORDER BY name";
@@ -105,40 +105,42 @@ public class WaiterDAO {
             return false;
         }
     }
+
     public String getWaiterNameById(int waiterId) {
-    String sql = "SELECT name FROM waiter WHERE waiter_id = ?";
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, waiterId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getString("name");
+        String sql = "SELECT name FROM waiter WHERE waiter_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, waiterId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return "None";
     }
-    return "None";
-}
-public Waiter loginWaiter(String name, String password) {
-    String sql = "SELECT * FROM waiter WHERE name = ? AND password = ?";
 
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, name);
-        ps.setString(2, password);
+    public Waiter loginWaiter(String name, String password) {
+        String sql = "SELECT * FROM waiter WHERE name = ? AND password = ?";
 
-        ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setString(2, password);
 
-        if (rs.next()) {
-            Waiter w = new Waiter();
-            w.setWaiterId(rs.getInt("waiter_id"));
-            w.setName(rs.getString("name"));
-            w.setPassword(rs.getString("password"));
-            w.setContactNumber(rs.getString("contact_number"));
-            return w;
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Waiter w = new Waiter();
+                w.setWaiterId(rs.getInt("waiter_id"));
+                w.setName(rs.getString("name"));
+                w.setPassword(rs.getString("password"));
+                w.setContactNumber(rs.getString("contact_number"));
+                return w;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
 
 }
