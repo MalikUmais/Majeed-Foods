@@ -1,10 +1,12 @@
 package ui;
 
-import dao.MenuDAO;
 import models.MenuItem;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import controller.MenuController;
+
 import java.awt.*;
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class MenuManagementUI extends JFrame {
     private JTextField txtName;
     private JTextField txtPrice;
 
-    private MenuDAO menuDAO;
+    private MenuController menuDAO;
 
     public MenuManagementUI() {
-        menuDAO = new MenuDAO();
+        menuDAO = new MenuController();
 
         setTitle("Menu Management - Majeed Foods");
         setSize(700, 500);

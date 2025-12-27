@@ -1,10 +1,12 @@
 package ui;
 
-import dao.BalanceDAO;
-import dao.StatsDAO;
 import models.Balance;
 
 import javax.swing.*;
+
+import controller.BalanceController;
+import controller.StatsController;
+
 import java.awt.*;
 
 public class BalanceManagementUI extends JFrame {
@@ -13,13 +15,13 @@ public class BalanceManagementUI extends JFrame {
     private JTextField txtSaleAmount;
     private JTextField txtPurchaseAmount;
 
-    private BalanceDAO balanceDAO;
-    private StatsDAO statsDAO;
+    private BalanceController balanceDAO;
+    private StatsController statsDAO;
 
     public BalanceManagementUI() {
 
-        balanceDAO = new BalanceDAO();
-        statsDAO = new StatsDAO();
+        balanceDAO = new BalanceController();
+        statsDAO = new StatsController();
 
         setTitle("Balance Management - Majeed Foods");
         setSize(500, 400);

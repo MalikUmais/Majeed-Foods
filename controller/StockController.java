@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.List;
 
 import models.Stock;
 
-public class StockDAO {
+public class StockController {
 
     private Connection conn;
 
-    public StockDAO() {
+    public StockController() {
         conn = DBConnection.getConnection();
     }
 

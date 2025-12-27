@@ -1,14 +1,14 @@
-package dao;
+package controller;
 
 import java.sql.*;
 
 import models.Stats;
 
-public class StatsDAO {
+public class StatsController {
 
     private Connection conn;
 
-    public StatsDAO() {
+    public StatsController() {
         conn = DBConnection.getConnection();
     }
 
@@ -81,7 +81,7 @@ public class StatsDAO {
     public String generateProfitLossReport() {
 
         Stats stats = getStats();
-        BalanceDAO balanceDAO = new BalanceDAO();
+        BalanceController balanceDAO = new BalanceController();
 
         // Current balance
         double balance = balanceDAO.getBalance().getAmount();

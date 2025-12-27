@@ -1,24 +1,26 @@
 package ui;
 
-import dao.BalanceDAO;
-import dao.StatsDAO;
 import models.Balance;
 import models.Stats;
 
 import javax.swing.*;
+
+import controller.BalanceController;
+import controller.StatsController;
+
 import java.awt.*;
 
 public class ReportsUI extends JFrame {
 
     private JTextArea txtReportArea;
 
-    private StatsDAO statsDAO;
-    private BalanceDAO balanceDAO;
+    private StatsController statsDAO;
+    private BalanceController balanceDAO;
 
     public ReportsUI() {
 
-        statsDAO = new StatsDAO();
-        balanceDAO = new BalanceDAO();
+        statsDAO = new StatsController();
+        balanceDAO = new BalanceController();
 
         setTitle("Reports - Majeed Foods");
         setSize(600, 500);

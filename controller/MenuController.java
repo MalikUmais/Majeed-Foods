@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.List;
 
 import models.MenuItem;
 
-public class MenuDAO {
+public class MenuController {
 
     private Connection conn;
 
-    public MenuDAO() {
+    public MenuController() {
         conn = DBConnection.getConnection();
     }
 

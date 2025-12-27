@@ -1,11 +1,13 @@
 package ui;
 
-import dao.ManagerDAO;
-import dao.WaiterDAO;
 import models.Manager;
 import models.Waiter;
 
 import javax.swing.*;
+
+import controller.ManagerController;
+import controller.WaiterController;
+
 import java.awt.*;
 
 public class LoginUI extends JFrame {
@@ -65,8 +67,8 @@ public class LoginUI extends JFrame {
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
 
-        ManagerDAO managerDAO = new ManagerDAO();
-        WaiterDAO waiterDAO = new WaiterDAO();
+        ManagerController managerDAO = new ManagerController();
+        WaiterController waiterDAO = new WaiterController();
         Manager manager = managerDAO.loginManager(username, password);
 
         if (manager != null) {

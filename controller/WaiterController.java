@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.List;
 
 import models.Waiter;
 
-public class WaiterDAO {
+public class WaiterController {
 
     private Connection conn;
 
-    public WaiterDAO() {
+    public WaiterController() {
         conn = DBConnection.getConnection();
     }
 

@@ -1,12 +1,14 @@
 package ui;
 
-import dao.MenuDAO;
-import dao.ShiftDAO;
 import models.MenuItem;
 import models.Shift;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import controller.MenuController;
+import controller.ShiftController;
+
 import java.awt.*;
 import java.util.List;
 
@@ -19,14 +21,14 @@ public class WaiterDashboardUI extends JFrame {
     private JLabel lblShiftDays;
 
     private int waiterId;
-    private MenuDAO menuDAO;
-    private ShiftDAO shiftDAO;
+    private MenuController menuDAO;
+    private ShiftController shiftDAO;
 
     public WaiterDashboardUI(int waiterId, String waiterName) {
 
         this.waiterId = waiterId;
-        this.menuDAO = new MenuDAO();
-        this.shiftDAO = new ShiftDAO();
+        this.menuDAO = new MenuController();
+        this.shiftDAO = new ShiftController();
 
         setTitle("Waiter Dashboard - Majeed Foods");
         setSize(800, 550);

@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.List;
 import models.Shift;
 import models.Waiter;
 
-public class ShiftDAO {
+public class ShiftController {
 
     private Connection conn;
 
-    public ShiftDAO() {
+    public ShiftController() {
         conn = DBConnection.getConnection();
     }
 

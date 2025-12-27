@@ -1,12 +1,14 @@
 package ui;
 
-import dao.ShiftDAO;
-import dao.WaiterDAO;
 import models.Shift;
 import models.Waiter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import controller.ShiftController;
+import controller.WaiterController;
+
 import java.awt.*;
 import java.util.List;
 
@@ -19,13 +21,13 @@ public class ShiftManagementUI extends JFrame {
     private JTextField txtShiftTiming;
     private JTextField txtShiftDays;
 
-    private ShiftDAO shiftDAO;
-    private WaiterDAO waiterDAO;
+    private ShiftController shiftDAO;
+    private WaiterController waiterDAO;
 
     public ShiftManagementUI() {
 
-        shiftDAO = new ShiftDAO();
-        waiterDAO = new WaiterDAO();
+        shiftDAO = new ShiftController();
+        waiterDAO = new WaiterController();
 
         setTitle("Shift Management - Majeed Foods");
         setSize(850, 600);

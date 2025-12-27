@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.List;
 
 import models.Manager;
 
-public class ManagerDAO {
+public class ManagerController {
 
     private Connection conn;
 
-    public ManagerDAO() {
+    public ManagerController() {
         conn = DBConnection.getConnection();
     }
 

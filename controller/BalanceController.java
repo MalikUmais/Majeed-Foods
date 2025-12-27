@@ -1,14 +1,14 @@
-package dao;
+package controller;
 
 import java.sql.*;
 
 import models.Balance;
 
-public class BalanceDAO {
+public class BalanceController {
 
     private Connection conn;
 
-    public BalanceDAO() {
+    public BalanceController() {
         conn = DBConnection.getConnection();
     }
 

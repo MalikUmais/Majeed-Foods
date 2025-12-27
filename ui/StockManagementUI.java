@@ -1,11 +1,14 @@
 package ui;
 
-import dao.StockDAO;
 import models.Stock;
-import dao.BalanceDAO;
-import dao.StatsDAO;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import controller.BalanceController;
+import controller.StatsController;
+import controller.StockController;
+
 import java.awt.*;
 import java.util.List;
 
@@ -18,15 +21,15 @@ public class StockManagementUI extends JFrame {
     private JTextField txtQuantity;
     private JTextField txtPrice;
 
-    private StockDAO stockDAO;
-    private StatsDAO statsDAO;
-    private BalanceDAO balanceDAO;
+    private StockController stockDAO;
+    private StatsController statsDAO;
+    private BalanceController balanceDAO;
 
     public StockManagementUI() {
 
-        stockDAO = new StockDAO();
-        statsDAO = new StatsDAO();
-        balanceDAO = new BalanceDAO();
+        stockDAO = new StockController();
+        statsDAO = new StatsController();
+        balanceDAO = new BalanceController();
 
         setTitle("Stock Management - Majeed Foods");
         setSize(800, 550);
